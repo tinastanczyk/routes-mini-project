@@ -15,23 +15,23 @@ diagnostics.post('/', (req, res) => {
   const { time, errors: {tip, topic, username} } = req.body;
 
   // If all the required properties are present
-  if (time && errors) {
+  if (req.body.time && req.body.errors) {
     // Variable for the object we will save
     const newDiagnostic = {
       time,
+      error_id: uuidv4(),
       errors:{
         tip,
         topic,
         username
       },
-      error_id: uuidv4(),
     };
 
     readAndAppend(newDiagnostic, './db/diagnostics.json');
 
     const response = {
       status: 'success',
-      body: newFeedback,
+      body: newDiagnostic,
     };
 
     res.json(response);
